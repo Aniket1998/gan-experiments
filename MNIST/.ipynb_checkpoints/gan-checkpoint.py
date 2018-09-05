@@ -18,8 +18,8 @@ class GAN(object):
         self.label_smooth = label_smooth
         self.batch_size = batch_size
         self.sample_size = sample_size
+        self.test_noise = torch.randn(sample_size,G.z_size,device=device)
         self.p_flip = p_flip
-        self.test_noise = 0
 
     def save_model(self, epoch):
         print("Saving Model at '{}'".format(self.path))
