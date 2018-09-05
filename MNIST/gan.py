@@ -60,26 +60,21 @@ class GAN(object):
         self.D.train()
         for epoch in range(self.start_epoch, self.epochs+1):
             print("Epoch %d of %d" % (epoch+1,self.epochs))
-            running_G_loss = 0.0
-            running_D_loss = 0.0
+            running_G = 0.0
+            running_D = 0.0
             for i, data in enumerate(self.loader, 1):
                 images,labels = data
                 images = images.to(self.device)
                 labels = labels.to(self.device)
                 loss_d,loss_g = self.train_loop(images,labels)
-                running_G_loss += loss_g
-                running_D_loss += loss_d
-                if i%75==0:
-                    running_G_loss /= i
-                    running_D_loss /= i
-                    print("Epoch {} : Generator Loss : {} Discriminator Loss : {}".format(epoch+1,running_G_loss,running_D_loss))
-                    self.g_losses.append(running_G_loss)
-                    self.d_losses.append(running_D_loss)
-                    running_G_loss = 0.0
-                    running_D_loss = 0.0
+                running_G += loss_g
+                running_D += loss_d
+                self.g_losses.append(loss_g)
+                self.d_losses.append(loss_d)
             self.save_model(epoch)
             self.G.eval()
             self.D.eval()
+            print("Epoch {} : Mean Generator Loss {} Mean Discriminator Loss {}".format(epoch+1,running_G/i,running_D/i))      
             print("Sampling and saving images")
             self.sample_images(epoch)
             self.G.train()
