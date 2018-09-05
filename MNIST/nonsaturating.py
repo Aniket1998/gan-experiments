@@ -8,7 +8,7 @@ class NonsaturatingGAN(gan.GAN):
         self.target_g = torch.ones(self.batch_size,target_dim,1,1,device=self.device)
         self.target_real = self.label_smooth * torch.ones(self.batch_size,target_dim,1,1,device=self.device)
         self.target_fake = torch.zeros(self.batch_size,target_dim,1,1,device=self.device)
-        self.test_noise = torch.randn(self.sample_size,target_dim,1,1,device=self.device)
+        self.test_noise = torch.randn(self.sample_size,self.G.z_size,1,1,device=self.device)
 
     def train_loop(self,images,labels):
         #Train the discriminator on the real examples

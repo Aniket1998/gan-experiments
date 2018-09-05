@@ -4,18 +4,18 @@ import torch.nn.functional as F
 
 
 class Generator(nn.Module):
-    def __init__(self):
+    def __init__(self,d):
         super(Generator,self).__init__()
         self.z_size = 100
-        self.conv1 = nn.ConvTranspose2d(100,128*8,4,1,0)
-        self.bn1 = nn.BatchNorm2d(128*8)
-        self.conv2 = nn.ConvTranspose2d(128*8,128*4,4,2,1)
-        self.bn2 = nn.BatchNorm2d(128*4)
-        self.conv3 = nn.ConvTranspose2d(128*4,128*2,4,2,1)
-        self.bn3 = nn.BatchNorm2d(128*2)
-        self.conv4 = nn.ConvTranspose2d(128*2,128,4,2,1)
-        self.bn4 = nn.BatchNorm2d(128)
-        self.conv5 = nn.ConvTranspose2d(128,1,4,2,1)
+        self.conv1 = nn.ConvTranspose2d(100,d*8,4,1,0)
+        self.bn1 = nn.BatchNorm2d(d*8)
+        self.conv2 = nn.ConvTranspose2d(d*8,d*4,4,2,1)
+        self.bn2 = nn.BatchNorm2d(d*4)
+        self.conv3 = nn.ConvTranspose2d(d*4,d*2,4,2,1)
+        self.bn3 = nn.BatchNorm2d(d*2)
+        self.conv4 = nn.ConvTranspose2d(d*2,d,4,2,1)
+        self.bn4 = nn.BatchNorm2d(d)
+        self.conv5 = nn.ConvTranspose2d(d,1,4,2,1)
  
         for m in self.modules():
             if isinstance(m,nn.ConvTranspose2d):
@@ -37,16 +37,16 @@ class Generator(nn.Module):
         return x
 
 class Discriminator(nn.Module):
-    def __init__(self):
+    def __init__(self,d):
         super(Discriminator,self).__init__()
-        self.conv1 = nn.Conv2d(1,128,4,2,1);
-        self.conv2 = nn.Conv2d(128,128*2,4,2,1);
-        self.bn2 = nn.BatchNorm2d(128*2)
-        self.conv3 = nn.Conv2d(128*2,128*4,4,2,1);
-        self.bn3 = nn.BatchNorm2d(128*4)
-        self.conv4 = nn.Conv2d(128*4,128*8,4,2,1);
-        self.bn4 = nn.BatchNorm2d(128*8)
-        self.conv5 = nn.Conv2d(128*8,1,4,1,0);
+        self.conv1 = nn.Conv2d(1,d,4,2,1);
+        self.conv2 = nn.Conv2d(d,d*2,4,2,1);
+        self.bn2 = nn.BatchNorm2d(d*2)
+        self.conv3 = nn.Conv2d(d*2,d*4,4,2,1);
+        self.bn3 = nn.BatchNorm2d(d*4)
+        self.conv4 = nn.Conv2d(d*4,d*8,4,2,1);
+        self.bn4 = nn.BatchNorm2d(d*8)
+        self.conv5 = nn.Conv2d(d*8,1,4,1,0);
  
         for m in self.modules():
             if isinstance(m,nn.Conv2d):

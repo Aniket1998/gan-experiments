@@ -69,11 +69,14 @@ class GAN(object):
                 loss_d,loss_g = self.train_loop(images,labels)
                 running_G_loss += loss_g
                 running_D_loss += loss_d
-            running_G_loss /= i
-            running_D_loss /= i
-            print("Epoch {} : Generator Loss : {} Discriminator Loss : {}".format(epoch+1,running_G_loss,running_D_loss))
-            self.g_losses.append(running_G_loss)
-            self.d_losses.append(running_D_loss)
+                if i%75==0:
+                    running_G_loss /= i
+                    running_D_loss /= i
+                    print("Epoch {} : Generator Loss : {} Discriminator Loss : {}".format(epoch+1,running_G_loss,running_D_loss))
+                    self.g_losses.append(running_G_loss)
+                    self.d_losses.append(running_D_loss)
+                    running_G_loss = 0.0
+                    running_D_loss = 0.0
             self.save_model(epoch)
             self.G.eval()
             self.D.eval()
