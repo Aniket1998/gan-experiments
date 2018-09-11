@@ -1,4 +1,3 @@
-from tqdm import *
 import torch
 from torch import autograd
 import torchvision
@@ -67,7 +66,7 @@ class WassersteinGAN(object):
         self.D.train()
         running_G = 0.0
         running_D = 0.0
-        for itr in tqdm(range(self.start_iter,self.iters)):
+        for itr in range(self.start_iter,self.iters):
             #Train the critic
             self.optimD.zero_grad()
             for i,data in enumerate(self.loader):
